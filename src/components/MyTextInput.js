@@ -1,0 +1,28 @@
+import React from "react"
+import { StyleSheet, Text, TextInput, View } from "react-native"
+
+export default props => {
+    return(
+        <View style={[styles.container,props.containerStyle ?? {}]}>
+            <TextInput 
+                {...props}
+                style={[styles.input,props.style ?? {}]}
+            />
+            {props.rightCom}
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor:"#FFFFFF",
+        marginBottom:15,
+        paddingHorizontal:15,
+        borderRadius:5,
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    input:{
+        flexGrow:1
+    }
+})

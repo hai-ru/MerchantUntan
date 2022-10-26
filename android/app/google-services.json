@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "575001161776",
+    "project_id": "untanpay-merchant",
+    "storage_bucket": "untanpay-merchant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575001161776:android:4ee64b7ebaad02318d7df5",
+        "android_client_info": {
+          "package_name": "com.merchantuntan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575001161776-rvidbh314nkunv8po3ckjrkekt8bil9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.merchantuntan",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "575001161776-msaleuj2m0nen4a4ca3prtoc28asquuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAftWjjOG6ziUimc4YOUwvbruGX7Ni4dRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575001161776-msaleuj2m0nen4a4ca3prtoc28asquuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
