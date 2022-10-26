@@ -12,6 +12,7 @@ import {getPOST,getCounter} from "../contexts/constants"
 const Home = props => {
 
     const navigation = useNavigation()
+    const [loading,setLoading] = useState(false)
 
     return(
         <ScrollView 

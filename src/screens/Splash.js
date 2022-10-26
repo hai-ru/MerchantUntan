@@ -47,7 +47,14 @@ export default props => {
         //     return tcpRef?.current?.write(message)
         // }
 
-        navigation.navigate("Login")
+        navigation?.dispatch(
+            CommonActions.reset({
+                index:0,
+                routes: [
+                    { name: 'Login' }
+                ]
+            })
+        )
     }
 
     useEffect(()=>{

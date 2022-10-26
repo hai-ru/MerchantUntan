@@ -3,6 +3,7 @@ import React, { useContext } from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
 import { AppContext } from "../contexts/AppContext"
+import theme from "../styles"
 
 
 const Head = props => {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
         paddingTop:40,
         paddingVertical:20,
         paddingHorizontal:20,
-        backgroundColor:"green",
+        backgroundColor:theme.color.primary,
         flexDirection:"row",
         alignItems:"center",
     },

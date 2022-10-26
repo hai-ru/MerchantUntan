@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react"
-import {View,Text,TouchableOpacity, Image, ScrollView, StyleSheet, Alert} from "react-native"
+import {View,Text,TouchableOpacity, Image, ScrollView, StyleSheet, Alert, Linking} from "react-native"
 import { CommonActions, useNavigation } from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Entypo"
 // import Pengaturan from "./Pengaturan"
 // import ChangePassword from "./ChangePassword"
 import { AppContext } from "../contexts/AppContext"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import theme from "../styles"
 
 const DrawerView = props => {
     const navigation = useNavigation()
@@ -17,11 +18,11 @@ const DrawerView = props => {
     const [,setShowChangePass] = useState(false)
 
     const logout = async () => {
+
         await AsyncStorage.removeItem("username")
         await AsyncStorage.removeItem("password")
-        await AsyncStorage.removeItem("post")
-        await AsyncStorage.removeItem("call")
-        tcpRef?.current?.destroy()
+        await AsyncStorage.removeItem("token")
+
         navigation?.dispatch(
             CommonActions.reset({
                 index:0,
@@ -38,20 +39,20 @@ const DrawerView = props => {
                 visible={pengaturan} 
                 close={()=>setPenganturan(false)}
             /> */}
-            <ChangePassword
+            {/* <ChangePassword
                 visible={showChangePass} 
                 close={()=>setShowChangePass(false)}
-            />
+            /> */}
             <View style={{
                 padding:15,
                 flexDirection:"row",
                 flexShrink:1,
                 alignItems:"center",
-                backgroundColor:"green",
+                backgroundColor:theme.color.primary,
                 paddingTop:40
             }}>
                 <Image 
-                    source={require("../images/logo-untan.jpeg")}
+                    source={require("../assets/images/logo-untan.png")}
                     style={{
                         height:75,
                         width:75,
@@ -65,7 +66,7 @@ const DrawerView = props => {
                         fontSize:16,
                         fontWeight:"bold",
                         color:"white"
-                    }}>Aplikasi Antrian{"\n"}Puskesmas Selakau Timur</Text>
+                    }}>Aplikasi Merchant/Lab{"\n"}Universitas Tanjungpura</Text>
                 </View>
             </View>
             <ScrollView contentContainerStyle={{
@@ -73,7 +74,7 @@ const DrawerView = props => {
                 paddingHorizontal:16,
                 paddingVertical:20
             }}>
-                <TouchableOpacity onPress={()=>setShowChangePass(true)}>
+                {/* <TouchableOpacity onPress={()=>setShowChangePass(true)}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="lock" />
                         {" "} Ganti Password
@@ -90,7 +91,7 @@ const DrawerView = props => {
                         <Icon size={16} name="browser" />
                         {" "} Command
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={logout}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="log-out" />
@@ -100,11 +101,22 @@ const DrawerView = props => {
 
                 <TouchableOpacity onPress={() => {
                     Alert.alert(
-                        "Aplikasi Puskesmas Selakau Timur",
-                        "Aplikasi Antrian Puskesmas Selakau Timur \n\n"+
-                        "Dibuat oleh : CV. IT KONSULTAN\n"+
+                        "Aplikasi Merchant/Lab",
+                        "Universitas Tanjungpura \n\n"+
+                        "Dibuat oleh : TIM UNTANPAY\n"+
                         "Tahun : 2022\n"+
-                        "Support : +6282255985321"
+                        "Website : https://untanpay.com",
+                        [
+                            {
+                                text:"Ok"
+                            },
+                            {
+                                text:"Kunjungi Web",
+                                onPress:()=>{
+                                    Linking.openURL("https://untanpay.com")
+                                }
+                            }
+                        ]
                     )
                 }}>
                     <Text style={styles.menu_txt}>
