@@ -74,24 +74,38 @@ const DrawerView = props => {
                 paddingHorizontal:16,
                 paddingVertical:20
             }}>
-                {/* <TouchableOpacity onPress={()=>setShowChangePass(true)}>
+                
+                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                     <Text style={styles.menu_txt}>
-                        <Icon size={16} name="lock" />
-                        {" "} Ganti Password
+                        <Icon size={16} name="home" />
+                        {" "} Beranda
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setPenganturan(true)}>
+                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                     <Text style={styles.menu_txt}>
-                        <Icon size={16} name="cog" />
-                        {" "} Pengaturan
+                        <Icon size={16} name="shopping-cart" />
+                        {" "} Transaksi
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Command")}>
+                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                     <Text style={styles.menu_txt}>
-                        <Icon size={16} name="browser" />
-                        {" "} Command
+                        <Icon size={16} name="database" />
+                        {" "} Produk
                     </Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                    <Text style={styles.menu_txt}>
+                        <Icon size={16} name="wallet" />
+                        {" "} Rekening Bank
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                    <Text style={styles.menu_txt}>
+                        <Icon size={16} name="user" />
+                        {" "} Profil
+                    </Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity onPress={logout}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="log-out" />

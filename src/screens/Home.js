@@ -2,17 +2,22 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import React, { useCallback, useContext, useEffect, useState } from "react"
 import { RefreshControl,ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
-import IconEn from "react-native-vector-icons/Entypo"
+import Cards from "../components/Cards"
 import Header from "../components/MyHeader"
-import { AppContext } from "../contexts/AppContext"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import moment from "moment"
-import {getPOST,getCounter} from "../contexts/constants"
+import style from "../styles"
+// import IconEn from "react-native-vector-icons/Entypo"
+// import { AppContext } from "../contexts/AppContext"
+// import AsyncStorage from "@react-native-async-storage/async-storage"
+// import moment from "moment"
+// import {getPOST,getCounter} from "../contexts/constants"
 
 const Home = props => {
 
     const navigation = useNavigation()
     const [loading,setLoading] = useState(false)
+    
+    const [name,setName] = useState("Heru")
+    const [toko,setToko] = useState("Kantin X")
 
     return(
         <ScrollView 
@@ -29,7 +34,7 @@ const Home = props => {
               }
         >
             <Header
-                text="Home"
+                text="Beranda"
                 leftCom={
                     <TouchableOpacity onPress={()=> navigation.toggleDrawer()}>
                         <Icon 
@@ -40,116 +45,61 @@ const Home = props => {
                     </TouchableOpacity>
                 }
             />
+            <View style={{
+                padding:20
+            }}>
+                <Text style={[styles.hello,
+                    {
+                        fontSize:20,
+                        fontWeight:"500"
+                    }
+                ]}>Selamat Datang, {name}</Text>
+                <Text style={styles.hello}>{toko}</Text>
+                <View style={{
+                    flexDirection:"row",
+                    justifyContent:"space-between",
+                    flexWrap:"wrap"
+                }}>
+                    <Cards
+                        iconName="money-bill-wave"
+                        title="Saldo"
+                        value="Rp. 0"
+                    />
+                    <Cards
+                        iconName="shopping-cart"
+                        title="Transaksi Hari Ini"
+                        value="0"
+                    />
+                </View>
+
+                <Text style={[styles.hello,
+                    {
+                        marginTop:10,
+                        fontWeight:"500",
+                        fontSize:17
+                    }
+                ]}>Pembayaran Terakhir</Text>
+                <Cards
+                    title="Dari : x"
+                    value="Rp. 0"
+                    style={styles.payment_text}
+                    textColor="#000000"
+                />
+            </View>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-   btn_action_container:{
-        alignItems:"center",
-        justifyContent:"center",
-        borderRightWidth:1,
-        padding:15,
-        flex:1,
-        borderColor:"#e0e0e0",
-        borderRightWidth:1
-    },
-    btn_action_txt:{
-        color:"black",
-        textAlign:"center"
-    },
-    btn_action_cta_container:{
+   hello:{
+    color:style.color.text
+   },
+   sv_container:{
         backgroundColor:"#FFFFFF",
-        marginTop:20,
-        borderRadius:5,
-        elevation:2,
-        flexDirection:"row"
-    },
-    ticket_container:{
-        backgroundColor:"#FFFFFF",
-        borderRadius:5,
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"center",
-        marginBottom:15,
-        marginHorizontal:20
-    },
-    ticket_logo_container:{
-        backgroundColor:"green",
-        height:"100%",
-        padding:15,
-        alignItems:"center",
-        paddingTop:"8%",
-        borderTopRightRadius:5,
-        borderBottomRightRadius:5,
-    },
-    ticket_txt_container:{
-        flexGrow:1,
-        flexShrink:1,
-        padding:15,
-    },
-    ticket_txt:{
-        color:"black",
-        marginBottom:10,
-    },
-    ticket_nomor:{
-        fontSize:25,
-        fontWeight:"bold"
-    },
-    ticket_tgl:{
-        fontSize:14,
-        fontWeight:"bold"
-    },
-    data_antrian:{
-        color:"black",
-        fontWeight:"bold",
-        fontSize:20,
-        marginBottom:10,
-        marginHorizontal:25,
-        marginTop:20
-    },
-    sv_container:{ 
-        flexGrow: 1,
-        // paddingHorizontal:25
-    },
-    main_card_container:{
-        marginTop:30,
-        borderRadius:5,
-        backgroundColor:"#FFFFFF",
-        elevation:1
-    },
-    main_card_header:{
-        backgroundColor:"green",
-        padding:10,
-        borderTopLeftRadius:5,
-        borderTopRightRadius:5
-    },
-    main_card_header_text:{
-        color:"#FFFFFF",
-        fontSize:20,
-        textAlign:"center"
-    },
-    main_card_footer:{
-        backgroundColor:"green",
-        padding:10,
-        borderBottomLeftRadius:5,
-        borderBottomRightRadius:5
-    },
-    main_card_footer_text:{
-        textAlign:"center",
-        color:"#FFFFFF"
-    },
-    main_card_body:{padding:20},
-    normal_text:{
-        textAlign:"center",
-        color:"black"
-    },
-    current_no:{
-        textAlign:"center",
-        color:"black",
-        fontSize:40,
-        fontWeight:"bold",
-        marginTop:15
+        flexGrow:1
+   },
+   payment_text:{
+        backgroundColor:"#FFFFFF"
     }
 })
 
