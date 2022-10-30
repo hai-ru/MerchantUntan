@@ -9,7 +9,6 @@ import style from "../styles"
 // import { AppContext } from "../contexts/AppContext"
 // import AsyncStorage from "@react-native-async-storage/async-storage"
 // import moment from "moment"
-// import {getPOST,getCounter} from "../contexts/constants"
 
 const Home = props => {
 
@@ -19,17 +18,18 @@ const Home = props => {
     const [name,setName] = useState("Heru")
     const [toko,setToko] = useState("Kantin X")
 
+    const _refresh = () => {
+        setLoading(true)
+        setTimeout(()=>setLoading(false),2000)
+    }
+
     return(
         <ScrollView 
             contentContainerStyle={styles.sv_container}
             refreshControl={
                 <RefreshControl
                   refreshing={loading}
-                  onRefresh={()=>{
-                    //   setRefresh(true)
-                    setLoading(true)
-                    // getinfo()
-                  }}
+                  onRefresh={_refresh}
                 />
               }
         >

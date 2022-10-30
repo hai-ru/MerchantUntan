@@ -81,13 +81,13 @@ const DrawerView = props => {
                         {" "} Beranda
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                <TouchableOpacity onPress={()=>navigation.navigate("Transaksi")}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="shopping-cart" />
                         {" "} Transaksi
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                <TouchableOpacity onPress={()=>navigation.navigate("Produk")}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="database" />
                         {" "} Produk

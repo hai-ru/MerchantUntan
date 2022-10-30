@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native"
 export default props => {
     return(
         <View style={[styles.container,props.containerStyle ?? {}]}>
+            {props.leftCom}
             <TextInput 
                 {...props}
                 style={[styles.input,props.style ?? {}]}

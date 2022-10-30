@@ -6,6 +6,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer"
 import DrawerView from "./DrawerView"
 // import SettingsScreen from "../screens/CommandSetup"
 import HomeScreen from "../screens/Home"
+import TransaksiScreen from "../screens/Transaksi"
+import ProdukScreen from "../screens/Produk"
+import TambahProdukScreen from "../screens/TambahProduk"
 
 const Drawer = createDrawerNavigator()
 
@@ -22,6 +25,18 @@ export default () => {
             <Drawer.Screen 
                 name="Home" 
                 component={HomeScreen}
+            />
+            <Drawer.Screen 
+                name="Transaksi" 
+                component={TransaksiScreen}
+            />
+            <Drawer.Screen 
+                name="Produk" 
+                component={ProdukScreen}
+            />
+            <Drawer.Screen 
+                name="ProdukEditor"
+                component={TambahProdukScreen}
             />
         </Drawer.Navigator>
     )

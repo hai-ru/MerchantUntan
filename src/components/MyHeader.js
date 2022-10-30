@@ -16,6 +16,7 @@ const Head = props => {
         <View style={styles.header_container}>
             {props.leftCom ?? <></>}
             <Text style={styles.header_txt}>{props.text ?? ""}</Text>
+            {props.rightCom ?? <></>}
         </View>
     )
 }

@@ -44,7 +44,7 @@ export default props => {
                         textAlign:"center",
                         marginTop:70,
                         marginBottom:15
-                    }]}>Silahkan masukkan detail data</Text>
+                    }]}>Silahkan masukan detail data</Text>
                     
                     { !type ? <LoginForm /> : <SignUp /> }
 
