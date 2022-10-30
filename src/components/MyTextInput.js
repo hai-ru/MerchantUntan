@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
         paddingHorizontal:15,
         borderRadius:5,
         flexDirection:"row",
-        alignItems:"center"
+        alignItems:"center",
+        borderColor:"#e8e8e8",
+        borderWidth:1
     },
     input:{
         flexGrow:1

@@ -1,5 +1,5 @@
 import React, { createContext, 
-    // useCallback, useRef, useState 
+    useCallback, useRef, useState 
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from "@react-native-firebase/messaging";
@@ -12,6 +12,9 @@ const AppContext = createContext()
 
 
 const AppProvider = (props) => { 
+
+    const [type,setType] = useState(false)
+    const [forgotPass,setForgot] = useState(false)
 
     const initFirebase = async () => {
         const authStatus = await messaging().requestPermission();
@@ -28,7 +31,9 @@ const AppProvider = (props) => {
     }
     
     const values = {
-        initFirebase
+        initFirebase,
+        type,setType,
+        forgotPass,setForgot
     }
 
     return(
