@@ -9,6 +9,8 @@ import HomeScreen from "../screens/Home"
 import TransaksiScreen from "../screens/Transaksi"
 import ProdukScreen from "../screens/Produk"
 import TambahProdukScreen from "../screens/TambahProduk"
+import RekBankScreen from "../screens/RekeningBank"
+import ProfilScreen from "../screens/Profil"
 
 const Drawer = createDrawerNavigator()
 
@@ -37,6 +39,14 @@ export default () => {
             <Drawer.Screen 
                 name="ProdukEditor"
                 component={TambahProdukScreen}
+            />
+            <Drawer.Screen 
+                name="RekBank"
+                component={RekBankScreen}
+            />
+            <Drawer.Screen 
+                name="Profil"
+                component={ProfilScreen}
             />
         </Drawer.Navigator>
     )

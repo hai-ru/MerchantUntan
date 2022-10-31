@@ -93,13 +93,13 @@ const DrawerView = props => {
                         {" "} Produk
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                <TouchableOpacity onPress={()=>navigation.navigate("RekBank")}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="wallet" />
                         {" "} Rekening Bank
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                <TouchableOpacity onPress={()=>navigation.navigate("Profil")}>
                     <Text style={styles.menu_txt}>
                         <Icon size={16} name="user" />
                         {" "} Profil
