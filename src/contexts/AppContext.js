@@ -13,6 +13,7 @@ const AppContext = createContext()
 
 const AppProvider = (props) => { 
 
+    const [action_produk,setActionProduk] = useState("Tambah")
     const [type,setType] = useState(false)
     const [forgotPass,setForgot] = useState(false)
 
@@ -33,7 +34,8 @@ const AppProvider = (props) => {
     const values = {
         initFirebase,
         type,setType,
-        forgotPass,setForgot
+        forgotPass,setForgot,
+        action_produk,setActionProduk
     }
 
     return(

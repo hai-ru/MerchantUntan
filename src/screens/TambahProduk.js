@@ -8,12 +8,13 @@ import style from "../styles"
 // import IconEn from "react-native-vector-icons/Entypo"
 // import { AppContext } from "../contexts/AppContext"
 // import AsyncStorage from "@react-native-async-storage/async-storage"
-import moment from "moment"
-import DatePicker from 'react-native-date-picker'
-import ProdukItem from "../components/ProdukItem"
 import MyTextInput from "../components/MyTextInput"
+import MyButton from "../components/MyButton"
+import { AppContext } from "../contexts/AppContext"
 
 const TambahProduk = props => {
+
+    const {action_produk} = useContext(AppContext)
 
     const navigation = useNavigation()
     const [loading,setLoading] = useState(false)
@@ -23,12 +24,12 @@ const TambahProduk = props => {
         setTimeout(()=>setLoading(false),2000)
     }
 
-    let product_mock = [1,2,3,4,5]
+    const simpan = () => navigation.navigate("Produk")
 
     return(
         <View style={{flex:1}}>  
             <Header
-                text="Tambah Produk"
+                text={`${action_produk} Produk`}
                 leftCom={
                     <TouchableOpacity onPress={()=> navigation.navigate("Produk")}>
                         <IconAn 
@@ -40,7 +41,12 @@ const TambahProduk = props => {
                 }
             />
             <ScrollView 
-                contentContainerStyle={styles.sv_container}
+                contentContainerStyle={[
+                    styles.sv_container,
+                    {
+                        paddingHorizontal:20
+                    }
+                ]}
                 refreshControl={
                     <RefreshControl
                     refreshing={loading}
@@ -48,7 +54,47 @@ const TambahProduk = props => {
                     />
                 }
             >
+                <TouchableNativeFeedback onPress={()=>Alert.alert("Tambah Foto")}>
+                    <View style={{
+                        marginVertical:20,
+                        alignSelf:"center",
+                        height:200,
+                        width:"48%",
+                        borderWidth:1,
+                        borderColor:style.color.border,
+                        borderRadius:8,
+                        elevation:2,
+                        backgroundColor:"#FFFFFF",
+                        alignItems:"center",
+                        justifyContent:"center"
+                    }}>
+                        <Icon name="camera" size={40} />
+                        <Text>Foto Produk</Text>
+                    </View>
+                </TouchableNativeFeedback>
                 
+                <MyTextInput 
+                    placeholder="Nama Produk"
+                />
+
+                <MyTextInput 
+                    placeholder="Harga Produk"
+                />
+
+                <MyTextInput 
+                    placeholder="Deskripsi Produk"
+                    multiline={true}
+                    style={{
+                        height:100,
+                        textAlignVertical:"top"
+                    }}
+                />
+
+                <MyButton 
+                    text="Simpan"
+                    onPress={simpan}
+                />
+
             </ScrollView>
         </View>
     )
