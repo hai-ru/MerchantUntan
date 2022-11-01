@@ -10,6 +10,30 @@ import messaging from "@react-native-firebase/messaging";
 
 const AppContext = createContext()
 
+const main_link = "https://merchant.untanpay.com/api/v1/"
+
+const connection = async (path = "",data = {}) => {
+
+    const token = await AsyncStorage.getItem("token") ?? ""
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer '+token,
+    }
+
+    return fetch(main_link+path, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    })
+    .then(r => r.json())
+    .then(response => {
+        return response;
+    })
+    .catch(e => {
+        console.log(e);
+        return false;
+    })
+}
 
 const AppProvider = (props) => { 
 
@@ -29,13 +53,24 @@ const AppProvider = (props) => {
         const token = await messaging().getToken()
         console.log("token",token)
         await AsyncStorage.setItem("fcm_token",token)
+        return token;
+    }
+
+    const LoginData = params => {
+        return connection("logged",params);
+    }
+
+    const HomeData = params => {
+        return connection("wallet-merchant",params);
     }
     
     const values = {
         initFirebase,
         type,setType,
         forgotPass,setForgot,
-        action_produk,setActionProduk
+        action_produk,setActionProduk,
+        LoginData,
+        HomeData
     }
 
     return(

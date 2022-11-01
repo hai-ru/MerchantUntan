@@ -6,6 +6,7 @@ import SplashScreen from './src/screens/Splash';
 import LoginScreen from './src/screens/Login';
 import AppDrawer from './src/components/AppDrawer';
 // import AppBottom from './src/components/AppBottom';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default () => {
             <Stack.Screen name="AppDrawer" component={AppDrawer} />
           </Stack.Navigator>
         </AppProvider>
+        <Toast />
     </NavigationContainer>
   )
 }

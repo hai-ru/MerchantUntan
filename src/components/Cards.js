@@ -18,21 +18,26 @@ export default props => {
                     style={styles.icon}
                 />
             }
-            <View style={styles.detail}>
-                <Text style={[
-                    styles.text_normal,
-                    {
-                        fontSize:15,
-                        fontWeight:"500",
-                        marginBottom:5,
-                        color:textColor
-                    }
-                ]}>{props.title}</Text>
-                <Text style={[
-                    styles.text_normal,
-                    {color:textColor}
-                ]}>{props.value}</Text>
-            </View>            
+            {
+                props.children ?
+                props.children
+                :
+                <View style={styles.detail}>
+                    <Text style={[
+                        styles.text_normal,
+                        {
+                            fontSize:15,
+                            fontWeight:"500",
+                            marginBottom:5,
+                            color:textColor
+                        }
+                    ]}>{props.title}</Text>
+                    <Text style={[
+                        styles.text_normal,
+                        {color:textColor}
+                    ]}>{props.value}</Text>
+                </View>            
+            }
         </View>
     )
 }

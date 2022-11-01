@@ -23,7 +23,7 @@ const Head = props => {
 
 const styles = StyleSheet.create({
     header_container:{
-        paddingTop:40,
+        paddingTop:20,
         paddingVertical:20,
         paddingHorizontal:20,
         backgroundColor:theme.color.primary,

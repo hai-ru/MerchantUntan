@@ -22,30 +22,22 @@ export default props => {
     const fetchData = async () => {
         setLoading(true)
         setStatus("Sedang memuat...")
-        await initFirebase();
-        // await splashData();
-        // await tcpConnection();
+
+        const token = await AsyncStorage.getItem("token")
+
+        if(token !== null)
+        return navigation?.dispatch(
+            CommonActions.reset({
+                index:0,
+                routes: [
+                    { name: 'AppDrawer' }
+                ]
+            })
+        )
+
+        const fcm = await AsyncStorage.getItem("fcm_token")
+        if(fcm === null) await initFirebase();
         setLoading(false)
-
-        // const username = await AsyncStorage.getItem("username")
-        // const password = await AsyncStorage.getItem("password")
-        // const post = await AsyncStorage.getItem("post")
-        // const call = await AsyncStorage.getItem("call")
-        // const fcm_token = await AsyncStorage.getItem("fcm_token")
-        // // console.log("message",username)
-        // if(username && password){
-        //     const message = "SYS|LOGIN|REQ|CALLER!"+post+"!"+call+"!"+username+"!"+password+"!"+fcm_token
-        //     if(tcpRef.current === null){
-        //         const tryA = retry + 1;
-        //         setRetry(tryA);
-                
-        //         if(tryA > 0)
-        //         return navigation.navigate("Login")
-
-        //         return fetchData()
-        //     }
-        //     return tcpRef?.current?.write(message)
-        // }
 
         navigation?.dispatch(
             CommonActions.reset({

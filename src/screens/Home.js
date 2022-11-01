@@ -2,8 +2,11 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import React, { useCallback, useContext, useEffect, useState } from "react"
 import { RefreshControl,ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
+import Toast from 'react-native-toast-message';
+
 import Cards from "../components/Cards"
 import Header from "../components/MyHeader"
+import { AppContext } from "../contexts/AppContext"
 import style from "../styles"
 // import IconEn from "react-native-vector-icons/Entypo"
 // import { AppContext } from "../contexts/AppContext"
@@ -13,14 +16,44 @@ import style from "../styles"
 const Home = props => {
 
     const navigation = useNavigation()
-    const [loading,setLoading] = useState(false)
     
-    const [name,setName] = useState("Heru")
-    const [toko,setToko] = useState("Kantin X")
+    const {HomeData} = useContext(AppContext)
+    
+    const [loading,setLoading] = useState(false)
+    const [name,setName] = useState("")
+    const [toko,setToko] = useState("")
+    const [saldo,setSaldo] = useState("")
+    const [trx,setTrx] = useState(0)
+    const [trxList,setTrxList] = useState([])
+
+    const fetchData = async () => {
+
+        setLoading(true)
+        const response = await HomeData()
+        setLoading(false)
+
+        if(!response || !response.status) 
+        return Toast.show({
+            type: 'error',
+            text1: 'Informasi',
+            text2: "Cek koneksi internet anda...",
+            position:"bottom"
+        });
+
+        setName(response?.user?.name)
+        setToko(response?.merchant?.name)
+        setSaldo(response?.amount_text)
+        setTrx(response?.transaction_count)
+        setTrxList(response?.transaction)
+
+    }
+
+    useEffect(()=>{
+        fetchData()
+    },[])
 
     const _refresh = () => {
-        setLoading(true)
-        setTimeout(()=>setLoading(false),2000)
+        fetchData()
     }
 
     return(
@@ -53,7 +86,7 @@ const Home = props => {
                         fontSize:20,
                         fontWeight:"500"
                     }
-                ]}>Selamat Datang, {name}</Text>
+                ]}>Selamat Datang, {"\n"}{name}</Text>
                 <Text style={styles.hello}>{toko}</Text>
                 <View style={{
                     flexDirection:"row",
@@ -63,12 +96,12 @@ const Home = props => {
                     <Cards
                         iconName="money-bill-wave"
                         title="Saldo"
-                        value="Rp. 0"
+                        value={`Rp. ${saldo}`}
                     />
                     <Cards
                         iconName="shopping-cart"
                         title="Transaksi Hari Ini"
-                        value="0"
+                        value={trx}
                     />
                 </View>
 
@@ -79,12 +112,30 @@ const Home = props => {
                         fontSize:17
                     }
                 ]}>Pembayaran Terakhir</Text>
-                <Cards
-                    title="Dari : x"
-                    value="Rp. 0"
-                    style={styles.payment_text}
-                    textColor="#000000"
-                />
+
+                {
+                    trxList.map((item,index)=>{
+                        return(
+                            <Cards
+                                key={`trx_item_${index}`}
+                                style={styles.payment_text}
+                            >
+                                <Text style={{
+                                    color:"#000000",
+                                    flexGrow:1
+                                }}>
+                                    Terima dari :
+                                    {" "}{item?.pengirim ?? "-"}
+                                </Text>
+                                <Text style={{
+                                    color:"green"
+                                }}>
+                                    +Rp. {item?.nominal}
+                                </Text>
+                            </Cards>
+                        )
+                    })
+                }
             </View>
         </ScrollView>
     )
@@ -99,7 +150,8 @@ const styles = StyleSheet.create({
         flexGrow:1
    },
    payment_text:{
-        backgroundColor:"#FFFFFF"
+        backgroundColor:"#FFFFFF",
+        padding:10
     }
 })
 

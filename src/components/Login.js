@@ -1,20 +1,23 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Alert, Button, Image, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, CommonActions } from "@react-navigation/native"
+import Toast from 'react-native-toast-message';
 
 import MyButton from "../components/MyButton"
 import MyTextInput from "../components/MyTextInput"
 import style from "../styles"
 import {AppContext} from "../contexts/AppContext"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default props => {
+const LoginForm = props => {
 
     const navigation = useNavigation()
 
     const {
         setType,
-        setForgot
+        setForgot,
+        LoginData
     } = useContext(AppContext)
 
     
@@ -24,7 +27,32 @@ export default props => {
     const [password,setPassword] = useState("")
 
     const _login = async () =>{
-        navigation.navigate("AppDrawer")
+
+        setLoading(true)
+        const response = await LoginData({
+            email:username,
+            password:password
+        })
+        setLoading(false)
+
+        if(!response?.status)
+        return Toast.show({
+            type: 'error',
+            text1: 'Informasi',
+            text2: response.message,
+            position:"bottom"
+        });
+
+        await AsyncStorage.setItem("token",response.token)
+
+        navigation?.dispatch(
+            CommonActions.reset({
+                index:0,
+                routes: [
+                    { name: 'AppDrawer' }
+                ]
+            })
+        )
     }
 
     return(
@@ -88,3 +116,5 @@ export default props => {
         </View>
     )
 } 
+
+export default LoginForm
