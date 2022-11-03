@@ -5,22 +5,52 @@ import Icon from "react-native-vector-icons/Feather"
 import Cards from "../components/Cards"
 import Header from "../components/MyHeader"
 import style from "../styles"
-// import IconEn from "react-native-vector-icons/Entypo"
-// import { AppContext } from "../contexts/AppContext"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
-import moment from "moment"
+import moment from "moment/min/moment-with-locales";
+import Lottie from 'lottie-react-native';
+
 import DatePicker from 'react-native-date-picker'
+import { AppContext } from "../contexts/AppContext"
 
 const Transaksi = props => {
+    
+    moment.locale("id")
 
     const navigation = useNavigation()
+    const {TransaksiData} = useContext(AppContext)
+
     const [loading,setLoading] = useState(false)
+    const [trxList,setTrxList] = useState([])
     const [open,setOpen] = useState(false)
     const [type,setType] = useState(0)
     const [date,setDate] = useState({
         start: moment(),
-        end: moment().add(7,"days")
+        end: moment()
     })
+
+    const fetchData = async () => {
+        const format = "yyyy-MM-DD"
+        const params = {
+            start:date.start.format(format),
+            end:date.end.format(format)
+        }
+        // console.log("params",params)
+        const result = await TransaksiData(params)
+        console.log("result",result)
+        if(!result || !result?.status)
+        return null
+
+        setTrxList(result?.transaction)
+    }
+
+    useEffect(()=>{
+        fetchData();
+    },[])
+
+    useEffect(()=>{
+        fetchData();
+    },[date])
+
+    
 
     const _refresh = () => {
         setLoading(true)
@@ -62,12 +92,6 @@ const Transaksi = props => {
                     dates.start = moment(d)
                     :
                     dates.end = moment(d)
-
-                    const diff = moment(dates.end).diff(moment(dates.start), 'days');
-                    console.log("diff",diff)
-                    if(diff >= limit_chart)
-                    return Alert.alert("Info","Maksimal "+limit_chart+" hari");
-
                     setDate(dates)
                 }}
                 onCancel={() => {
@@ -115,12 +139,42 @@ const Transaksi = props => {
                         fontSize:17
                     }
                 ]}>Daftar Transaksi</Text>
-                <Cards
-                    title="Dari : x"
-                    value="Rp. 0"
-                    style={styles.payment_text}
-                    textColor="#000000"
-                />
+                {
+                    trxList?.length === 0 &&
+                    <View>
+                        <Lottie 
+                            source={require("../assets/lotties/no-transaction-history.json")} 
+                            autoPlay 
+                            loop
+                        />
+                        <Text>Ayo buat transaksi pertama mu..</Text>
+                    </View>
+                }
+                {
+                    trxList?.map((item,index)=>{
+                        return(
+                            <Cards
+                                key={`trx_item_${index}`}
+                                style={styles.payment_text}
+                            >
+                                <Text style={{
+                                    color:"#000000",
+                                    flexGrow:1
+                                }}>
+                                    Jenis Transaksi : {item.jenis}
+                                    {/* {" "}{item?.pengirim ?? "-"} */}
+                                    {/* {" "}{item?.pengirim ?? "-"} */}
+                                    {"\n\n"+moment(item.created_at).format("dddd, DD/MM/yyyy hh:mm:ss")}
+                                </Text>
+                                <Text style={{
+                                    color:"green"
+                                }}>
+                                    +Rp. {item?.nominal}
+                                </Text>
+                            </Cards>
+                        )
+                    })
+                }
             </View>
         </ScrollView>
     )

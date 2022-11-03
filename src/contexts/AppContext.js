@@ -13,7 +13,7 @@ const AppContext = createContext()
 const main_link = "https://merchant.untanpay.com/api/v1/"
 
 const connection = async (path = "",data = {}) => {
-
+    console.log("data >> ",data)
     const token = await AsyncStorage.getItem("token") ?? ""
     const headers = {
         'Content-Type': 'application/json',
@@ -63,6 +63,10 @@ const AppProvider = (props) => {
     const HomeData = params => {
         return connection("wallet-merchant",params);
     }
+
+    const TransaksiData = params => {
+        return connection("trx-merchant",params);
+    }
     
     const values = {
         initFirebase,
@@ -70,7 +74,8 @@ const AppProvider = (props) => {
         forgotPass,setForgot,
         action_produk,setActionProduk,
         LoginData,
-        HomeData
+        HomeData,
+        TransaksiData
     }
 
     return(

@@ -8,12 +8,16 @@ import Cards from "../components/Cards"
 import Header from "../components/MyHeader"
 import { AppContext } from "../contexts/AppContext"
 import style from "../styles"
+// import moment from "moment";
+import moment from "moment/min/moment-with-locales";
 // import IconEn from "react-native-vector-icons/Entypo"
 // import { AppContext } from "../contexts/AppContext"
 // import AsyncStorage from "@react-native-async-storage/async-storage"
 // import moment from "moment"
 
 const Home = props => {
+
+    moment.locale("id")
 
     const navigation = useNavigation()
     
@@ -63,6 +67,7 @@ const Home = props => {
                 <RefreshControl
                   refreshing={loading}
                   onRefresh={_refresh}
+                  colors={[style.color.primary]}
                 />
               }
         >
@@ -126,6 +131,7 @@ const Home = props => {
                                 }}>
                                     Terima dari :
                                     {" "}{item?.pengirim ?? "-"}
+                                    {"\n\n"+moment(item.created_at).format("dddd, DD/MM/yyyy hh:mm:ss")}
                                 </Text>
                                 <Text style={{
                                     color:"green"
