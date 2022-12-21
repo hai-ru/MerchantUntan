@@ -33,9 +33,7 @@ const Transaksi = props => {
             start:date.start.format(format),
             end:date.end.format(format)
         }
-        // console.log("params",params)
         const result = await TransaksiData(params)
-        console.log("result",result)
         if(!result || !result?.status)
         return null
 
@@ -141,17 +139,26 @@ const Transaksi = props => {
                 ]}>Daftar Transaksi</Text>
                 {
                     trxList?.length === 0 &&
-                    <View>
+                    <View style={{
+                        alignItems:"center"
+                    }}>
                         <Lottie 
+                            style={{
+                                height:200
+                            }}
                             source={require("../assets/lotties/no-transaction-history.json")} 
                             autoPlay 
                             loop
                         />
-                        <Text>Ayo buat transaksi pertama mu..</Text>
+                        <Text style={{
+                            color:"#000000",
+                            fontSize:14
+                        }}>Ayo buat transaksi pertama mu..</Text>
                     </View>
                 }
                 {
                     trxList?.map((item,index)=>{
+                        const type = item.jenis.toLowerCase().includes("penarikan") ?? false;
                         return(
                             <Cards
                                 key={`trx_item_${index}`}
@@ -159,17 +166,18 @@ const Transaksi = props => {
                             >
                                 <Text style={{
                                     color:"#000000",
-                                    flexGrow:1
+                                    flexGrow:1,
+                                    flexWrap:"wrap",
+                                    flexShrink:1
                                 }}>
-                                    Jenis Transaksi : {item.jenis}
-                                    {/* {" "}{item?.pengirim ?? "-"} */}
-                                    {/* {" "}{item?.pengirim ?? "-"} */}
-                                    {"\n\n"+moment(item.created_at).format("dddd, DD/MM/yyyy hh:mm:ss")}
+                                    {moment(item.created_at).format("dddd, DD/MM/yyyy hh:mm:ss")}
+                                    {"\n"+item.jenis}
+                                    {item.pengirim ? `\n${item.pengirim}` : null}
                                 </Text>
                                 <Text style={{
-                                    color:"green"
+                                    color: type ? "red" : "green"
                                 }}>
-                                    +Rp. {item?.nominal}
+                                    {type ? "-" : "+"}Rp. {item?.nominal.toLocaleString()}
                                 </Text>
                             </Cards>
                         )
@@ -189,7 +197,8 @@ const styles = StyleSheet.create({
         flexGrow:1
    },
    payment_text:{
-        backgroundColor:"#FFFFFF"
+        backgroundColor:"#FFFFFF",
+        padding:13
     },
     date_txt_container:{
         borderWidth:1,

@@ -13,8 +13,8 @@ const AppContext = createContext()
 const main_link = "https://merchant.untanpay.com/api/v1/"
 
 const connection = async (path = "",data = {}) => {
-    console.log("data >> ",data)
     const token = await AsyncStorage.getItem("token") ?? ""
+    console.log("data >> ",token)
     const headers = {
         'Content-Type': 'application/json',
         'Authorization' : 'Bearer '+token,
@@ -51,7 +51,6 @@ const AppProvider = (props) => {
             console.log('Authorization status:', authStatus);
         }
         const token = await messaging().getToken()
-        console.log("token",token)
         await AsyncStorage.setItem("fcm_token",token)
         return token;
     }

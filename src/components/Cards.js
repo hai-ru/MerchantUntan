@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         flexDirection:"row",
         alignItems:"center",
-        minWidth:"48%",
+        minWidth:"100%",
         marginTop:10,
         elevation:2
         // paddingHorizontal:10,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     icon:{
         backgroundColor:"#025d93",
         height:"100%",
-        paddingTop:"10%",
+        paddingTop:"5%",
         paddingHorizontal:10,
         borderTopLeftRadius:5,
         borderBottomLeftRadius:5,
