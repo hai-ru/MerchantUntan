@@ -27,6 +27,7 @@ export default props => {
             onPress={props.onPress}
         >
             <View style={[styles.outbtn,props.btnStyle ?? {}]}>
+                {props.leftCom ?? null}
                 <Text style={[styles.txtBtn,props.txtStyle ?? {}]}>{props.text}</Text>
             </View>
         </TouchableNativeFeedback>

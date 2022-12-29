@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react"
-import { Alert, Button, Image, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import React, { useContext, useState } from "react"
+import { Text, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
 import { useNavigation, CommonActions } from "@react-navigation/native"
 import Toast from 'react-native-toast-message';
@@ -44,6 +44,7 @@ const LoginForm = props => {
         });
 
         await AsyncStorage.setItem("token",response.token)
+        await AsyncStorage.setItem("tipe",response.merchant.tipe)
 
         navigation?.dispatch(
             CommonActions.reset({

@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         alignItems:"center",
         borderColor:"#e8e8e8",
-        borderWidth:1
+        borderWidth:1,
+        zIndex:1
     },
     input:{
         flexGrow:1

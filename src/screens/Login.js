@@ -6,9 +6,6 @@ import LoginForm from "../components/Login"
 import SignUp from "../components/SignUp"
 import { AppContext } from "../contexts/AppContext"
 
-// import DropDownPicker from "react-native-dropdown-picker"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
-
 
 export default props => {
 

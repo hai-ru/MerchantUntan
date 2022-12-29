@@ -4,14 +4,24 @@ import { View, Text,Image, TouchableNativeFeedback } from "react-native"
 import Icon from "react-native-vector-icons/AntDesign"
 import { AppContext } from "../contexts/AppContext"
 import style from "../styles"
+import helper from "../helpers/helper.js"
 
-export default props => {
+const ProdukItem = props => {
     const navigation = useNavigation()
-    const{setActionProduk} = useContext(AppContext)
+    const { setActionProduk } = useContext(AppContext)
+    const {data} = props
+
+    let image = require("../assets/images/placeholder-images-image_large.webp")
+    if( helper.validURL(data.picture) ){
+        image = {uri:data.picture}
+    }
+
     return(
         <TouchableNativeFeedback onPress={()=>{
             setActionProduk("Ubah")
-            navigation.navigate("ProdukEditor")
+            navigation.navigate("ProdukEditor",{
+                data:data
+            })
         }}>
             <View style={{
                 width:"48%",
@@ -23,11 +33,11 @@ export default props => {
                 marginTop:15
             }}>
                 <Image 
-                    source={{uri:"https://merchant.untanpay.com/storage/photo_product/iEMssKHmyyRhOcQTmV0tiLo1kSxf9sVVBKvfZfYA.jpeg"}}
+                    source={image}
                     style={{
                         height:200,
                         width:"100%",
-                        resizeMode:"contain"
+                        resizeMode:"cover"
                     }}
                 />
                 <View style={{
@@ -35,22 +45,24 @@ export default props => {
                 }}>
                     <Text style={{
                         color:"#000000"
-                    }}>Nama Produk</Text>
+                    }}>{data.name}</Text>
                     <Text style={{ 
                         fontWeight:"500",
                         color:"#000000",
                         marginVertical:10
-                    }}>Rp. 0</Text>
-                    <Text>
+                    }}>Rp. {data.price}</Text>
+                    {/* <Text>
                         <Icon 
                             color={style.color.star_color} 
                             name="star" 
                             size={16}
                         /> 
                         {" "} 5.0 | Terlayani (5000)
-                    </Text>
+                    </Text> */}
                 </View>
             </View>
         </TouchableNativeFeedback>
     )
 }
+
+export default ProdukItem
