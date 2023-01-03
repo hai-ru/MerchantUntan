@@ -82,6 +82,17 @@ const AppProvider = (props) => {
         return connection("product-merchant/store",params);
     }
 
+    const BankList = params => {
+        return connection("bank-merchant",params);
+    }
+    const BankCo = params => {
+        return connection("bank",params);
+    }
+    
+    const BankStore = params => {
+        return connection("bank-merchant/store",params);
+    }
+
     const getFileExtension = filename => {
         return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : undefined;
     }
@@ -134,7 +145,10 @@ const AppProvider = (props) => {
         uploadFile,
         getFileExtension,
         KategoriData,
-        ProdukStore
+        ProdukStore,
+        BankList,
+        BankCo,
+        BankStore
     }
 
     return(

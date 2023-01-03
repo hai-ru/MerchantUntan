@@ -1,9 +1,11 @@
-- produk
-tambah 
-edit 
-- transaksi
-list transaksi
-- rek bank penarikan
-lit daftar rekening bank
-tambah, edit, delete
-- pengaturan toko
+- produk (done)
+tambah (done)
+edit (done)
+- transaksi (done)
+list transaksi (done)
+
+- rek bank penarikan (done)
+lit daftar rekening bank (done)
+tambah, edit, delete (done)
+
+- pengaturan toko/profil

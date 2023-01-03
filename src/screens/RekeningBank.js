@@ -1,30 +1,132 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
-import React, { useCallback, useContext, useEffect, useState } from "react"
-import { RefreshControl,ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import React, { useContext, useEffect, useState } from "react"
+import { RefreshControl, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
+import IconFA from "react-native-vector-icons/FontAwesome5"
+import Toast from 'react-native-toast-message'
+
 import Cards from "../components/Cards"
 import Header from "../components/MyHeader"
 import style from "../styles"
-// import IconEn from "react-native-vector-icons/Entypo"
-// import { AppContext } from "../contexts/AppContext"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
-import moment from "moment"
-import DatePicker from 'react-native-date-picker'
+import { AppContext } from "../contexts/AppContext"
+import Modals from "../components/Modals"
+import MyTextInput from "../components/MyTextInput"
+import DropDownPicker from "react-native-dropdown-picker"
+import MyButton from "../components/MyButton"
 
 const RekeningBank = props => {
 
+    const { BankList,BankCo,BankStore } = useContext(AppContext)
+
     const navigation = useNavigation()
     const [loading,setLoading] = useState(false)
-    const [open,setOpen] = useState(false)
-    const [type,setType] = useState(0)
-    const [date,setDate] = useState({
-        start: moment(),
-        end: moment().add(7,"days")
-    })
+    const [bankUp,setBankUp] = useState(false)
+    const [list,setList] = useState([])
+    
+    const [bankPickerOpen,setBankPickerOpen] = useState(false)
+    const [bankList,setBankList] = useState([])
+
+    const [bankCoId,setBankCoId] = useState(0)
+
+    const [bankId,setBankId] = useState(0)
+    const [bankName,setBankName] = useState("")
+    const [bankPlaceholder,setBankPlaceholder] = useState("")
+    const [bankAccount,setBankAccount] = useState("")
+
+    const fetchData = async () => {
+        setLoading(true)
+        const result = await BankList()
+        const resultBank = await BankCo()
+        setLoading(false)
+        if(!result.status || !resultBank.status) return;
+        setList(result.data)
+        const list = resultBank.data.map((item)=>{
+            return {"label":item.bank_name,"value":item.id};
+        })
+        setBankList(list)
+    }
+
+    useEffect(()=>{
+        fetchData()
+    },[])
 
     const _refresh = () => {
+        fetchData()
+    }
+
+    const simpan = async () => {
+        if(loading) return;
+        const input = {
+            'id':bankId,
+            'bank_name':bankName,
+            'bank_account':bankAccount,
+            'bank_placeholder':bankPlaceholder,
+            'tipe':"merchant",
+        }
         setLoading(true)
-        setTimeout(()=>setLoading(false),2000)
+        const result = await BankStore(input)
+        setLoading(false)
+        if(!result.status) return Toast.show({
+            type: 'error',
+            text1: 'Informasi',
+            text2: result.message,
+            position:"bottom"
+        });
+
+        fetchData();
+
+        setBankUp(false)
+
+        return Toast.show({
+            type: 'success',
+            text1: 'Informasi',
+            text2: result.message,
+            position:"bottom"
+        });
+        
+    }
+
+    const deleteData = async (id) => {
+        if(loading) return;
+        const input = {
+            'id':bankId,
+            'bank_name':bankName,
+            'bank_account':bankAccount,
+            'bank_placeholder':bankPlaceholder,
+            'tipe':"merchant",
+            "delete":1
+        }
+        setLoading(true)
+        const result = await BankStore(input)
+        setLoading(false)
+        if(!result.status) return Toast.show({
+            type: 'error',
+            text1: 'Informasi',
+            text2: result.message,
+            position:"bottom"
+        });
+
+        fetchData();
+
+        setBankUp(false)
+
+        return Toast.show({
+            type: 'success',
+            text1: 'Informasi',
+            text2: result.message,
+            position:"bottom"
+        });
+        
+    }
+
+    const editData = item => {
+        setBankId(item.id)
+        setBankName(item.bank_name)
+        setBankPlaceholder(item.bank_placeholder)
+        setBankAccount(item.bank_account)
+        const res = bankList.find(v => v.label === item.bank_name)
+        if(res) setBankCoId(res.value)
+        setBankUp(true)
     }
 
     return(
@@ -37,6 +139,59 @@ const RekeningBank = props => {
                 />
               }
         >
+            <Modals
+                visible={bankUp}
+                close={()=>setBankUp(false)}
+                title="Data Bank Merchant"
+            >
+                <View>
+                    <DropDownPicker
+                        searchable={true}
+                        searchPlaceholder="Cari..."
+                        searchContainerStyle={{
+                            borderBottomColor:"#e8e8e8"
+                        }}
+                        searchTextInputStyle={{
+                            borderColor:"#e8e8e8"
+                        }}
+                        disabled={loading}
+                        open={bankPickerOpen}
+                        value={bankCoId}
+                        items={bankList}
+                        setOpen={setBankPickerOpen}
+                        setValue={setBankCoId}
+                        onSelectItem={v=>setBankName(v.label)}
+                        placeholder="Pilih Bank"
+                        style={{
+                            borderColor:"#e8e8e8",
+                            borderRadius:5,
+                            marginBottom:15,
+                        }}
+                        dropDownContainerStyle={{
+                            borderColor:"#e8e8e8",
+                        }}
+                        placeholderStyle={{
+                            color:"gray"
+                        }}
+                        zIndex={999}
+                    />
+                    <MyTextInput 
+                        placeholder="Nomor Rekening"
+                        onChangeText={setBankAccount}
+                        value={bankAccount}
+                    />
+                    <MyTextInput 
+                        placeholder="Atas Nama"
+                        onChangeText={setBankPlaceholder}
+                        value={bankPlaceholder}
+                    />
+                    <MyButton
+                     onPress={simpan} 
+                     text="Simpan"
+                     loading={loading}
+                    />
+                </View>
+            </Modals>
             <Header
                 text="Rekening Bank"
                 leftCom={
@@ -49,7 +204,13 @@ const RekeningBank = props => {
                     </TouchableOpacity>
                 }
                 rightCom={
-                    <TouchableOpacity onPress={()=> Alert.alert("Tambah")}>
+                    <TouchableOpacity onPress={()=> {
+                        setBankId(0)
+                        setBankName("")
+                        setBankPlaceholder("")
+                        setBankAccount("")
+                        setBankUp(true)
+                    }}>
                         <View style={{
                             backgroundColor:"#FFFFFF",
                             borderRadius:5,
@@ -69,31 +230,6 @@ const RekeningBank = props => {
                 }
             />
 
-            <DatePicker
-                modal
-                mode="date"
-                open={open}
-                date={date.end.toDate()}
-                onConfirm={(d) => {
-                    setOpen(false)
-                    let dates = {...date}
-                    type === 0 ?
-                    dates.start = moment(d)
-                    :
-                    dates.end = moment(d)
-
-                    const diff = moment(dates.end).diff(moment(dates.start), 'days');
-                    console.log("diff",diff)
-                    if(diff >= limit_chart)
-                    return Alert.alert("Info","Maksimal "+limit_chart+" hari");
-
-                    setDate(dates)
-                }}
-                onCancel={() => {
-                    setOpen(false)
-                }}
-            />
-
             <View style={{
                 paddingHorizontal:20
             }}>
@@ -105,12 +241,44 @@ const RekeningBank = props => {
                         fontSize:17
                     }
                 ]}>Daftar Rekening Bank</Text>
-                <Cards
-                    title="Dari : x"
-                    value="Rp. 0"
-                    style={styles.payment_text}
-                    textColor="#000000"
-                />
+                {
+                    list.map((item,index) => {
+                        return(
+                            <Cards
+                                style={styles.payment_text}
+                                textColor="#000000"
+                                key={`rekbank_${index}`}
+                            >
+                                <View style={{
+                                    flexDirection:"row",
+                                    paddingVertical:8,
+                                    paddingHorizontal:15
+                                }}>
+                                    <View style={{
+                                        flexGrow:1
+                                    }}>
+                                        <Text>{item.bank_name}</Text>
+                                        <Text>{item.bank_account}</Text>
+                                        <Text>{item.bank_placeholder}</Text>
+                                    </View>
+                                    <View>
+                                        <TouchableOpacity onPress={()=>editData(item)}>
+                                            <IconFA name="pencil-alt" size={16} style={{marginBottom:22}} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={()=>deleteData(item.id)}>
+                                            {
+                                                loading ?
+                                                <ActivityIndicator size="small" />
+                                                :
+                                                <IconFA name="trash" size={16} />
+                                            }
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Cards>
+                        )
+                    })
+                }
             </View>
         </ScrollView>
     )

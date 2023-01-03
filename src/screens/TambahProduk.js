@@ -140,7 +140,8 @@ const TambahProduk = props => {
         const result = await ProdukStore(input)
         setLoading(false)
         if(!result.status) return;
-        // console.log("result >> ",result)
+
+
         Toast.show({
             type: 'success',
             text1: 'Informasi',
