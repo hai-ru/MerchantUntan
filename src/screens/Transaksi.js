@@ -153,7 +153,7 @@ const Transaksi = props => {
                         <Text style={{
                             color:"#000000",
                             fontSize:14
-                        }}>Ayo buat transaksi pertama mu..</Text>
+                        }}>Belum ada transaksi di merchant..</Text>
                     </View>
                 }
                 {

@@ -93,6 +93,10 @@ const AppProvider = (props) => {
         return connection("bank-merchant/store",params);
     }
 
+    const ProfilData = params => {
+        return connection("myprofile",params);
+    }
+
     const getFileExtension = filename => {
         return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : undefined;
     }
@@ -148,7 +152,8 @@ const AppProvider = (props) => {
         ProdukStore,
         BankList,
         BankCo,
-        BankStore
+        BankStore,
+        ProfilData
     }
 
     return(

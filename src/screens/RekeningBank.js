@@ -179,6 +179,7 @@ const RekeningBank = props => {
                         placeholder="Nomor Rekening"
                         onChangeText={setBankAccount}
                         value={bankAccount}
+                        keyboardType="decimal-pad"
                     />
                     <MyTextInput 
                         placeholder="Atas Nama"

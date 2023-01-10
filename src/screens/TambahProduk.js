@@ -28,8 +28,11 @@ const TambahProduk = props => {
 
     const navigation = useNavigation()
     const [loading,setLoading] = useState(false)
+    
     const [pictureUp,setPictureUp] = useState(false)
     const [picture_url,setPictureUrl] = useState("")
+    const [open, setOpen] = useState(false);
+
     const [id,setID] = useState(0)
     const [nama,setNama] = useState("")
     const [harga,setHarga] = useState("")
@@ -37,7 +40,6 @@ const TambahProduk = props => {
     const [categoryList,setCategoryList] = useState([])
     const [category,setCategory] = useState(null)
 
-    const [open, setOpen] = useState(false);
 
     useEffect(()=>{
         fetchData()
