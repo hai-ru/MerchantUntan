@@ -37,6 +37,8 @@ export default props => {
 
         const fcm = await AsyncStorage.getItem("fcm_token")
         if(fcm === null) await initFirebase();
+
+        console.log("fcm >> ",fcm);
         setLoading(false)
 
         navigation?.dispatch(

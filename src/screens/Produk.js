@@ -160,7 +160,8 @@ const Produk = props => {
                 }}>
                     { productList.map((item,index) => {
                         return(
-                            <ProdukItem 
+                            <ProdukItem
+                                refresh={()=>fetchData()} 
                                 key={`produckt_${index}`}
                                 data={item}
                             />

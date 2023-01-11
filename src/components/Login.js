@@ -28,10 +28,13 @@ const LoginForm = props => {
 
     const _login = async () =>{
 
+        const fcm = await AsyncStorage.getItem("fcm_token")
+
         setLoading(true)
         const response = await LoginData({
             email:username,
-            password:password
+            password:password,
+            fcm:fcm
         })
         setLoading(false)
 

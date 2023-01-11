@@ -59,6 +59,7 @@ const AppProvider = (props) => {
     }
 
     const LoginData = params => {
+        console.log("params >>",params)
         return connection("logged",params);
     }
 
